@@ -22,6 +22,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     httpSecurity.httpBasic().and().authorizeRequests().antMatchers(HttpMethod.POST, "/rest/api/**")
         .hasRole("ADMIN").antMatchers(HttpMethod.PUT, "/rest/api/**").hasRole("ADMIN")
         .antMatchers(HttpMethod.PATCH, "/rest/api/**").hasRole("ADMIN").and().csrf().disable();
+    httpSecurity.authorizeRequests().antMatchers("/console/**").permitAll();
+
+    httpSecurity.csrf().disable();
+    httpSecurity.headers().frameOptions().disable();
 
   }
 
