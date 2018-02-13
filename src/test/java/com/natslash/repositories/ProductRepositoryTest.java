@@ -63,7 +63,7 @@ public class ProductRepositoryTest {
 
     // verify count of products in DB
     final long productCount = productRepository.count();
-    assertEquals(productCount, 1);
+    assertEquals(3, productCount);
 
     // get all products, list should only have one
     final Iterable<Product> products = productRepository.findAll();
@@ -74,6 +74,6 @@ public class ProductRepositoryTest {
       count++;
     }
 
-    assertEquals(count, 1);
+    assertEquals(3, count);
   }
 }

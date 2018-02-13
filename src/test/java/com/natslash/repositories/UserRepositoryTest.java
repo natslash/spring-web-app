@@ -51,7 +51,7 @@ public class UserRepositoryTest {
 
     // verify count of users in DB
     final long userCount = userRepository.count();
-    assertEquals(userCount, 1);
+    assertEquals(3, userCount);
 
     // get all users, list should only have one
     final Iterable<User> users = userRepository.findAll();
@@ -62,7 +62,7 @@ public class UserRepositoryTest {
       count++;
     }
 
-    assertEquals(count, 1);
+    assertEquals(3, count);
 
 
   }
