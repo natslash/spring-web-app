@@ -7,6 +7,7 @@ package com.natslash.controllers;
 import com.natslash.domain.Product;
 import com.natslash.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,6 +62,7 @@ public class ProductRESTController {
   }
 
 
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping("/product")
   public @ResponseBody Product saveProduct(@RequestBody final Product product) {
     productService.saveProduct(product);

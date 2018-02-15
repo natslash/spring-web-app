@@ -5,15 +5,21 @@
 package com.natslash.domain;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -51,6 +57,35 @@ public class User implements UserDetails {
       nullable = false)
   private boolean enabled;
 
+  @ManyToMany(
+      cascade = CascadeType.ALL,
+      fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "user_role",
+      joinColumns = @JoinColumn(
+          name = "user_id"),
+      inverseJoinColumns = @JoinColumn(
+          name = "role_id"))
+  private Set<Role> roles;
+
+  public User() {}
+
+  /**
+   * @param username
+   * @param password
+   * @param enabled
+   * @param roles
+   */
+  public User(final User user) {
+    super();
+    this.username = user.getUsername();
+    this.password = user.getPassword();
+    this.enabled = user.isEnabled();
+    this.roles = user.getRoles();
+  }
+
+
+
   /*
    * (non-Javadoc)
    * 
@@ -58,8 +93,8 @@ public class User implements UserDetails {
    */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-    return authorities;
+    return getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -165,6 +200,28 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return enabled;
+  }
+
+
+
+  /**
+   * Get the roles value.
+   * 
+   * @return The roles value.
+   */
+  public Set<Role> getRoles() {
+    return roles;
+  }
+
+
+
+  /**
+   * Set the roles value.
+   *
+   * @param roles The roles value to set.
+   */
+  public void setRoles(final Set<Role> roles) {
+    this.roles = roles;
   }
 
 }
