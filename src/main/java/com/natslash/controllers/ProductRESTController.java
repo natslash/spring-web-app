@@ -47,6 +47,7 @@ public class ProductRESTController {
   }
 
 
+  @PreAuthorize("hasRole('ROLE_USER')")
   @PutMapping("/product/edit/{id}")
   public @ResponseBody Product edit(@PathVariable final Integer id,
       @RequestBody final Product product) {
