@@ -71,6 +71,7 @@ public class ProductRepositoryTest {
     int count = 0;
 
     for (final Product p : products) {
+      System.out.println(p.toString());
       count++;
     }
 

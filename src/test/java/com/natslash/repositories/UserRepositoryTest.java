@@ -59,6 +59,7 @@ public class UserRepositoryTest {
     int count = 0;
 
     for (final User u : users) {
+      System.out.println(u.toString());
       count++;
     }
 
